@@ -1,0 +1,28 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with: python-version: "3.x"
+    - name: Install deps
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Lint with flake8
+      run: |
+        source .venv/bin/activate
+        pip install flake8
+        flake8 src/
+    - name: Run tests
+      run: |
+        source .venv/bin/activate
+        pytest tests/

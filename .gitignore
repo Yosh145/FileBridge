@@ -1,17 +1,20 @@
 # Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Virtual env
+*.py[cod]
+*.egg-info/
 .venv/
 
-# OAuth tokens
+# OS
+.DS_Store
+Thumbs.db
+
+# Credentials & tokens
 token.pickle
 credentials.json
 
-# Editor files
-*.swp
-.idea/
+# IDEs
 .vscode/
+.idea/
+
+# Logs
+*.log

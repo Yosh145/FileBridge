@@ -1,14 +1,22 @@
-# Fedora → Windows/Cloud Transfer GUI
+# FileBridge
 
-A PyQt5-based GUI to transfer files between Fedora and Windows partitions, local folders, or Google Drive.
+**Version**: 0.1.0  
+**Codename**: Bombardino Crocodilo
+
+A cross‑platform GUI tool to transfer files between Fedora, Windows, and Google Drive.
 
 ## Features
-- Copy to local `~/Documents/Transfers`
-- Mount Windows partition `/mnt/shared` and copy to `Users/xxxx/Downloads`
-- Upload to Google Drive via OAuth
-- Real-time progress bar & log output
-- Dark-themed UI
+- Local copy to `~/Documents/Transfers/`
+- Mount & copy to Windows `Users/Yashp/Downloads/`
+- Google Drive upload with progress
+- Dark‑themed PyQt5 GUI with realtime terminal
+- Override dropdown for custom partitions
+- Automatic version banner on startup
 
-## Prerequisites
-- Python 3.6+ installed
-- Git
+## Installation
+
+### Linux/macOS
+```bash
+git clone https://github.com/youruser/FileBridge.git
+cd FileBridge
+./install.sh

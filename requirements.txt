@@ -1,0 +1,4 @@
+PyQt5
+qdarkstyle
+google-auth-oauthlib
+google-api-python-client

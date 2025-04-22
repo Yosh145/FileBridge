@@ -1,5 +1,9 @@
-# Clone
-git clone https://github.com/<your-username>/my-transfer-gui.git
-cd my-transfer-gui
-# Run installer
-.\\install.ps1
+$ErrorActionPreference = 'Stop'
+
+python -m venv .venv
+. .\.venv\Scripts\Activate.ps1
+
+pip install --upgrade pip
+pip install -r requirements.txt
+
+Write-Host "Installation complete. Run '. .\ .venv\Scripts\Activate.ps1; python src\filebridge.py'"
