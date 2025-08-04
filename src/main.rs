@@ -1,38 +1,60 @@
-use std::env;
-use std::fs::File;
+use eframe::{App, Frame, egui};
+use egui_file_dialog::FileDialog;
+use std::{path::PathBuf, vec};
 
-use iced::{Element, Sandbox, Settings};
-use iced::widget::text;
-
-fn main() -> iced::Result {
-    FileBridge::run(Settings::default())
+struct FileBridge {
+    selected_file: Option<PathBuf>,
+    console_output: Vec<String>,
+    file_dialog: FileDialog,
 }
 
-struct FileBridge;
-
-#[derive(Debug)]
-enum Message {}
-
-impl Sandbox for FileBridge {
-    type Message = Message;
-
-    fn new() -> Self {
-        Self
+impl Default for FileBridge {
+    fn default() -> Self {
+        Self {
+            selected_file: None,
+            console_output: vec![format!("FileBridge {}", env!("CARGO_PKG_VERSION"))],
+            file_dialog: FileDialog::new(),
+        }
     }
+}
+impl App for FileBridge {
+    fn update(&mut self, ctx: &egui::Context, _frame: &mut Frame) {
+        egui::SidePanel::left("left_panel")
+            .resizable(false)
+            .min_width(300.0)
+            .show(ctx, |ui| {
+                ui.heading(format!("FileBridge {}", env!("CARGO_PKG_VERSION")));
+                ui.add_space(20.0);
 
-    fn title(&self) -> String {
-        let cargo_pkg: String = env!("CARGO_PKG_VERSION").into();
-        let mut title = String::from("FileBridge ");
-        title.push_str(&cargo_pkg);
+                ui.label("Select File or Folder");
 
-        return title;
+                if ui.button("File/Folder Select").clicked() {
+                    self.file_dialog.pick_multiple();
+                }
+
+                self.file_dialog.update(ctx);
+
+                ui.label("Selected File or Folder: ");
+
+                ui.label(format!("Picked file: {:?}", self.selected_file))
+            });
+
+        egui::CentralPanel::default().show(ctx, |ui| {
+            ui.heading("Console");
+            egui::ScrollArea::vertical().show(ui, |ui| {
+                for line in &self.console_output {
+                    ui.label(line);
+                }
+            });
+        });
     }
+}
 
-    fn update(&mut self, message: Self::Message) {
-        match message {}
-    }
-
-    fn view(&self) -> Element<'_, Self::Message> {
-        text("Test").into()
-    }
+fn main() -> Result<(), eframe::Error> {
+    let options = eframe::NativeOptions::default();
+    eframe::run_native(
+        format!("FileBridge {}", env!("CARGO_PKG_VERSION")).as_str(),
+        options,
+        Box::new(|_cc| Ok(Box::new(FileBridge::default()))),
+    )
 }
